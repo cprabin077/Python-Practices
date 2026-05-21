@@ -60,5 +60,26 @@ def user_create2(request):
     }
     return render(request, 'user_info/create2.html', context)
 
+def user_update(request, id):
+    print("This is id from url",id)
+    user = User.objects.get(id=id)
+    form = UserForm(instance=user)
+    if request.method == "POST":
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('/home/user')
+        else:
+            print(form.errors)
+
+    context = {
+        "form": form
+    }
+    return render(request, 'user_info/update.html', context)
+
+def user_delete(request, id):
+    user = User.objects.filter(id=id).delete()
+    return redirect("/home/user")
+
 
 

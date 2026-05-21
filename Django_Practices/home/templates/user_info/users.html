@@ -8,12 +8,23 @@
 </head>
 <body class="bg-gray-100 p-8">
 
-    <div class="max-w-5xl mx-auto bg-white shadow-lg rounded-lg p-6">
-        <h1 class="text-2xl font-bold text-green-600 mb-6">
-            User Details
-        </h1>
+    <div class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6">
 
-        <table class="w-full border-collapse border border-gray-300">
+        <!-- Add User Button -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-green-600">
+                User Details
+            </h1>
+
+            <a href="{% url 'create2' %}">
+                <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                    + Add New User
+                </button>
+            </a>
+        </div>
+
+        <!-- User Table -->
+        <table class="w-full border-collapse border border-gray-300 text-center">
             <thead class="bg-green-600 text-white">
                 <tr>
                     <th class="p-3 border">ID</th>
@@ -23,24 +34,44 @@
                     <th class="p-3 border">City</th>
                     <th class="p-3 border">Registration Date</th>
                     <th class="p-3 border">Status</th>
+                    <th class="p-3 border">Action</th>
                 </tr>
             </thead>
 
             <tbody>
                 {% for user in users %}
-
-                <tr class="text-center hover:bg-gray-100">
+                <tr class="hover:bg-gray-50">
                     <td class="p-3 border">{{ user.id }}</td>
                     <td class="p-3 border">{{ user.full_name }}</td>
                     <td class="p-3 border">{{ user.email }}</td>
                     <td class="p-3 border">{{ user.phone }}</td>
                     <td class="p-3 border">{{ user.city }}</td>
                     <td class="p-3 border">{{ user.created_at }}</td>
-                    <td class="p-3 border">{{ user.is_active }}</td>
+                    <td class="p-3 border">
+                        {% if user.is_active %}
+                            <span class="text-green-600 font-semibold">Active</span>
+                        {% else %}
+                            <span class="text-red-600 font-semibold">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td class="p-3 border space-x-2">
+                        <a href="{% url 'update' user.id %}">
+                            <button class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                                Update
+                            </button>
+                        </a>
+
+                        <a href="{% url 'delete' user.id %}">
+                            <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                                Delete
+                            </button>
+                        </a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+
     </div>
 
 </body>
